@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace TaskDesk.Models
 {
-    internal class User
+    public class User
     {
+        public int Id { get; set; }
+        public String Email { get; set; }
+        public String PasswordHash { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

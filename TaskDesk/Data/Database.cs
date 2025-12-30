@@ -9,8 +9,7 @@ namespace TaskDesk.Data
 {
     internal static class Database
     {
-        private static readonly string connectionString =
-            "Server=Abel\\SQLEXPRESS;Database=TaskDeskDB;Trusted_Connection=True;";
+        private static readonly string connectionString = "Server=Abel\\SQLEXPRESS;Database=TaskDeskDB;Trusted_Connection=True;TrustServerCertificate=True;";
 
         public static SqlConnection GetConnection()
         {
