@@ -32,9 +32,6 @@ namespace TaskDesk.Forms
             if (success)
             {
                 MessageBox.Show("Usuario registrado");
-                var loginForm = new LoginForm();
-                loginForm.Show();
-
                 this.Close();
             }
         }
@@ -46,9 +43,7 @@ namespace TaskDesk.Forms
 
         private void linkLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var loginForm = new LoginForm();
-            loginForm.Show();
-            this.Hide();
+            this.Close();
         }
     }
 }

@@ -43,11 +43,17 @@ namespace TaskDesk.Forms
         private void linkRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var registerForm = new RegisterForm();
+            registerForm.FormClosed += (s, args) => this.Show();
             registerForm.Show();
             this.Hide();
         }
 
         private void LoginForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblheader_Click(object sender, EventArgs e)
         {
 
         }
