@@ -26,7 +26,7 @@ namespace TaskDesk.Repositories
 
             while (await reader.ReadAsync())
             {
-                tasks.Add(new TaskItem
+                tasks.Add(new Models.TaskItem
                 {
                     Id = reader.GetInt32(reader.GetOrdinal("Id")),
                     Title = reader.GetString(reader.GetOrdinal("Title")),

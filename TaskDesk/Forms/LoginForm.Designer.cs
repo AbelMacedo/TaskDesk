@@ -65,7 +65,6 @@
             lblEmail.Size = new Size(651, 38);
             lblEmail.TabIndex = 2;
             lblEmail.Text = "Correo electrónico:";
-            lblEmail.Click += label1_Click;
             // 
             // lblPassword
             // 
@@ -158,7 +157,6 @@
             lblheader.TabIndex = 3;
             lblheader.Text = "Inicio de sesión";
             lblheader.TextAlign = ContentAlignment.MiddleCenter;
-            lblheader.Click += lblheader_Click;
             // 
             // LoginForm
             // 

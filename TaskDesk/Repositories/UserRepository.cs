@@ -16,7 +16,7 @@ namespace TaskDesk.Repositories
             using var connection = Data.Database.GetConnection();
             await connection.OpenAsync();
 
-            var query = @"SELECT Id, Email, PasswordHash, CreatedAt FROM Users WHERE Email = @Email";
+            var query = @"SELECT Id, Name, Surnames, Email, PasswordHash, CreatedAt FROM Users WHERE Email = @Email";
 
             using var command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@Email", email);
@@ -34,26 +34,30 @@ namespace TaskDesk.Repositories
             return new User
             {
                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                Name = reader.GetString(reader.GetOrdinal("Name")),
+                Surnames = reader.GetString(reader.GetOrdinal("Surnames")),
                 Email = reader.GetString(reader.GetOrdinal("Email")),
                 PasswordHash = passwordHash,
                 CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt"))
             };
         }
 
-        public async Task<bool> RegisterAsync(String email, String password)
+        public async Task<bool> RegisterAsync(String email, String password, String name, String surnames)
         {
             try
             {
                 using var connection = Data.Database.GetConnection();
                 await connection.OpenAsync();
 
-                var query = @"INSERT INTO Users (Email, PasswordHash, CreatedAt) VALUES (@Email, @PasswordHash, @CreatedAt)";
+                var query = @"INSERT INTO Users (Email, PasswordHash, CreatedAt, Name, Surnames) VALUES (@Email, @PasswordHash, @CreatedAt, @Name, @Surnames)";
 
                 using var command = new SqlCommand(query, connection);
 
                 command.Parameters.AddWithValue("@Email", email);
                 command.Parameters.AddWithValue("@PasswordHash", HashPassword(password));
                 command.Parameters.AddWithValue("@CreatedAt", DateTime.UtcNow);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@Surnames", surnames);
 
                 return await command.ExecuteNonQueryAsync() > 0;
             }

@@ -37,6 +37,7 @@
             ClientSize = new Size(1778, 944);
             Name = "TaskForm";
             Text = "TaskForm";
+            Load += TaskForm_Load;
             ResumeLayout(false);
         }
 

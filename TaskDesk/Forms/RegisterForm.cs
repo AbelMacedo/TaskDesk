@@ -27,7 +27,7 @@ namespace TaskDesk.Forms
             }
 
             var repo = new UserRepository();
-            var success = await repo.RegisterAsync(txtEmail.Text.Trim(), txtPassword.Text);
+            var success = await repo.RegisterAsync(txtEmail.Text.Trim(), txtPassword.Text, txtName.Text, txtSurnames.Text);
 
             if (success)
             {
@@ -45,5 +45,6 @@ namespace TaskDesk.Forms
         {
             this.Close();
         }
+
     }
 }

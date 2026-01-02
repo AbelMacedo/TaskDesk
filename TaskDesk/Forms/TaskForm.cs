@@ -16,5 +16,10 @@ namespace TaskDesk.Forms
         {
             InitializeComponent();
         }
+
+        private void TaskForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
