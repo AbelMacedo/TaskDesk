@@ -63,6 +63,16 @@ namespace TaskDesk.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap addTask {
+            get {
+                object obj = ResourceManager.GetObject("addTask", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap foto_usuario {
             get {
                 object obj = ResourceManager.GetObject("foto_usuario", resourceCulture);

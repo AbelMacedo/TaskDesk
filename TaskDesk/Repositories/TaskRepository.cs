@@ -17,7 +17,7 @@ namespace TaskDesk.Repositories
             using var connection = Data.Database.GetConnection();
             await connection.OpenAsync();
 
-            var query = @"SELECT Id, Title, Description, Priority, DueDate, UserId, Completed FROM Tasks WHERE UserId = @UserId";
+            var query = @"SELECT Id, Title, Description, Priority, DueDate, UserId, Completed FROM Tasks WHERE UserId = @UserId AND Completed = 0";
 
             using var command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@UserId", userId);
@@ -39,6 +39,26 @@ namespace TaskDesk.Repositories
             }
 
             return tasks;
+        }
+
+        public async Task<TaskItem> AddAsync(TaskItem task)
+        {
+            using var connection = Data.Database.GetConnection();
+            await connection.OpenAsync();
+
+            var query = @"INSERT INTO Tasks (Title, Description, Priority, DueDate, UserId, Completed) VALUES (@Title, @Description, @Priority, @DueDate, @UserId, 0); SELECT SCOPE_IDENTITY();";
+
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Title", task.Title);
+            command.Parameters.AddWithValue("@Description", task.Description);
+            command.Parameters.AddWithValue("@Priority", task.Priority);
+            command.Parameters.AddWithValue("@DueDate", (object?)task.DueDate ?? DBNull.Value);
+            command.Parameters.AddWithValue("@UserId", task.UserId);
+
+            var result = await command.ExecuteScalarAsync();
+            task.Id = Convert.ToInt32(result);
+
+            return task;
         }
     }
 }
