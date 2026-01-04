@@ -178,6 +178,7 @@
             dgvIncompleteTasks.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvIncompleteTasks.Size = new Size(1337, 225);
             dgvIncompleteTasks.TabIndex = 3;
+            dgvIncompleteTasks.CellDoubleClick += dgvIncompleteTasks_CellDoubleClick;
             // 
             // pbNewTask
             // 

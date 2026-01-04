@@ -60,5 +60,36 @@ namespace TaskDesk.Repositories
 
             return task;
         }
+
+        public async Task<TaskItem> UpdateAsync(TaskItem task)
+        {
+            using var connection = Data.Database.GetConnection();
+            await connection.OpenAsync();
+
+            var query = @"UPDATE Tasks SET Title = @Title, Description = @Description, Priority = @Priority, DueDate = @DueDate WHERE Id = @Id";
+
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Title", task.Title);
+            command.Parameters.AddWithValue("@Description", task.Description);
+            command.Parameters.AddWithValue("@Priority", task.Priority);
+            command.Parameters.AddWithValue("@DueDate", (object?)task.DueDate ?? DBNull.Value);
+            command.Parameters.AddWithValue("@Id", task.Id);
+
+            await command.ExecuteNonQueryAsync();
+            return task;
+        }
+
+        public async Task MarkAsCompletedAsync(int taskId)
+        {
+            using var connection = Data.Database.GetConnection();
+            await connection.OpenAsync();
+
+            var query = @"UPDATE Tasks SET Completed = 1 WHERE Id = @Id";
+
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Id", taskId);
+
+            await command.ExecuteNonQueryAsync();
+        }
     }
 }

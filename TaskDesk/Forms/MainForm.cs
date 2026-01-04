@@ -69,8 +69,24 @@ namespace TaskDesk.Forms
         private void pbNewTask_Click(object sender, EventArgs e)
         {
             var taskForm = new TaskForm(_user);
-            taskForm.ShowDialog();
-            _ = LoadTaskAsync();
+            if (taskForm.ShowDialog() == DialogResult.OK)
+            {
+                _ = LoadTaskAsync();
+            }
         }
+
+        private void dgvIncompleteTasks_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var task = (TaskItem)dgvIncompleteTasks.Rows[e.RowIndex].DataBoundItem;
+
+            var taskForm = new TaskForm(_user, task);
+            if (taskForm.ShowDialog() == DialogResult.OK)
+            {
+                _ = LoadTaskAsync();
+            }
+        }
+
     }
 }
