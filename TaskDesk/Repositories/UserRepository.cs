@@ -74,5 +74,21 @@ namespace TaskDesk.Repositories
             var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
             return Convert.ToBase64String(bytes);
         }
+
+        public async Task<User> UpdateAsync(User user)
+        {
+            using var connection = Data.Database.GetConnection();
+            await connection.OpenAsync();
+
+            var query = @"UPDATE Users SET Name = @Name, Surnames = @Surnames WHERE Id = @Id";
+
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Id", user.Id);
+            command.Parameters.AddWithValue("@Name", user.Name);
+            command.Parameters.AddWithValue("@Surnames", user.Surnames);
+
+            await command.ExecuteNonQueryAsync();
+            return user;
+        }
     }
 }

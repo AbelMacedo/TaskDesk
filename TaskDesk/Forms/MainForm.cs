@@ -32,6 +32,7 @@ namespace TaskDesk.Forms
             lblEmail.Text = $"{_user.Email}";
             lblWelcome.Text = $"Bienvenido, {_user.Name} {_user.Surnames}!";
 
+            RefreshUserInfo();
             await LoadTaskAsync();
         }
 
@@ -144,6 +145,21 @@ namespace TaskDesk.Forms
             {
                 await LoadTaskAsync();
             }
+        }
+
+        private async void lblknProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var profile = new ProfileForm(_user);
+            if(profile.ShowDialog() == DialogResult.OK)
+            {
+                RefreshUserInfo();
+            }
+        }
+
+        private void RefreshUserInfo()
+        {
+            lblWelcome.Text = $"Bienvenido, {_user.Name} {_user.Surnames}!";
+            lblEmail.Text = _user.Email;
         }
     }
 }

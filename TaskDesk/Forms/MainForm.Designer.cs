@@ -35,7 +35,6 @@
             lblEmail = new Label();
             lblknCompletedTasks = new LinkLabel();
             pictureBox1 = new PictureBox();
-            lblnkIncompleteTasks = new LinkLabel();
             lblMain = new Label();
             lblWelcome = new Label();
             label1 = new Label();
@@ -58,7 +57,6 @@
             panel1.Controls.Add(lblEmail);
             panel1.Controls.Add(lblknCompletedTasks);
             panel1.Controls.Add(pictureBox1);
-            panel1.Controls.Add(lblnkIncompleteTasks);
             panel1.Controls.Add(lblMain);
             panel1.Location = new Point(2, 1);
             panel1.Name = "panel1";
@@ -69,12 +67,13 @@
             // 
             lblknProfile.AutoSize = true;
             lblknProfile.Font = new Font("Constantia", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblknProfile.Location = new Point(10, 451);
+            lblknProfile.Location = new Point(10, 408);
             lblknProfile.Name = "lblknProfile";
             lblknProfile.Size = new Size(103, 29);
             lblknProfile.TabIndex = 5;
             lblknProfile.TabStop = true;
             lblknProfile.Text = "Mi perfil";
+            lblknProfile.LinkClicked += lblknProfile_LinkClicked;
             // 
             // btnLogout
             // 
@@ -91,11 +90,11 @@
             // 
             lblProfile.BackColor = Color.Gray;
             lblProfile.Font = new Font("Constantia", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblProfile.Location = new Point(0, 410);
+            lblProfile.Location = new Point(3, 361);
             lblProfile.Name = "lblProfile";
             lblProfile.Size = new Size(390, 37);
             lblProfile.TabIndex = 4;
-            lblProfile.Text = "Perfil";
+            lblProfile.Text = "PERFIL";
             // 
             // lblEmail
             // 
@@ -111,7 +110,7 @@
             // 
             lblknCompletedTasks.AutoSize = true;
             lblknCompletedTasks.Font = new Font("Constantia", 12F);
-            lblknCompletedTasks.Location = new Point(10, 365);
+            lblknCompletedTasks.Location = new Point(10, 313);
             lblknCompletedTasks.Name = "lblknCompletedTasks";
             lblknCompletedTasks.Size = new Size(219, 29);
             lblknCompletedTasks.TabIndex = 3;
@@ -130,17 +129,6 @@
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
             // 
-            // lblnkIncompleteTasks
-            // 
-            lblnkIncompleteTasks.AutoSize = true;
-            lblnkIncompleteTasks.Font = new Font("Constantia", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblnkIncompleteTasks.Location = new Point(10, 320);
-            lblnkIncompleteTasks.Name = "lblnkIncompleteTasks";
-            lblnkIncompleteTasks.Size = new Size(73, 29);
-            lblnkIncompleteTasks.TabIndex = 1;
-            lblnkIncompleteTasks.TabStop = true;
-            lblnkIncompleteTasks.Text = "Inicio";
-            // 
             // lblMain
             // 
             lblMain.BackColor = Color.Gray;
@@ -149,7 +137,7 @@
             lblMain.Name = "lblMain";
             lblMain.Size = new Size(390, 33);
             lblMain.TabIndex = 2;
-            lblMain.Text = "Principal";
+            lblMain.Text = "PRINCIPAL";
             // 
             // lblWelcome
             // 
@@ -254,7 +242,6 @@
         private PictureBox pictureBox1;
         private Button btnLogout;
         private Label lblMain;
-        private LinkLabel lblnkIncompleteTasks;
         private LinkLabel lblknCompletedTasks;
         private Label lblProfile;
         private LinkLabel lblknProfile;
