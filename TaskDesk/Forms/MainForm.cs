@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -38,7 +39,7 @@ namespace TaskDesk.Forms
         {
             var tasks = await _taskRepository.GetAllByUserAsync(_user.Id);
             _tasks = new BindingList<TaskItem>(tasks);
-            dgvIncompleteTasks.DataSource = tasks.Where(t => !t.Completed).ToList();
+            dgvIncompleteTasks.DataSource = tasks;
             ConfigureGrid();
         }
 
@@ -88,5 +89,61 @@ namespace TaskDesk.Forms
             }
         }
 
+        private async void btnTaskCompleted_Click(object sender, EventArgs e)
+        {
+            if (dgvIncompleteTasks.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione una tarea primero");
+                return;
+            }
+
+            var task = (TaskItem)dgvIncompleteTasks.SelectedRows[0].DataBoundItem;
+
+            var confirm = MessageBox.Show($"¿Marcar la tarea \"{task.Title}\" como completada?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirm != DialogResult.Yes)
+            {
+                return;
+            }
+
+            await _taskRepository.MarkAsCompletedAsync(task.Id);
+            await LoadTaskAsync();
+        }
+
+        private void dgvIncompletedTask_SelectionChanged(Object sender, EventArgs e)
+        {
+            btnTaskCompleted.Enabled = dgvIncompleteTasks.SelectedRows.Count > 0;
+            btnDeleteTask.Enabled = dgvIncompleteTasks.SelectedRows.Count > 0;
+        }
+
+        private async void btnDeleteTask_Click(object sender, EventArgs e)
+        {
+            if (dgvIncompleteTasks.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione una tarea primero");
+                return;
+            }
+
+            var task = (TaskItem)dgvIncompleteTasks.SelectedRows[0].DataBoundItem;
+
+            var confirm = MessageBox.Show($"¿Esta seguro de eliminar la tarea \"{task.Title}\" ?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirm != DialogResult.Yes)
+            {
+                return;
+            }
+
+            await _taskRepository.DeleteAsync(task.Id);
+            await LoadTaskAsync();
+        }
+
+        private async void lblknCompletedTasks_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var completedTasks = new CompletedTasksForm(_user);
+            if (completedTasks.ShowDialog() == DialogResult.OK)
+            {
+                await LoadTaskAsync();
+            }
+        }
     }
 }

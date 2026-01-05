@@ -40,6 +40,38 @@ namespace TaskDesk.Repositories
 
             return tasks;
         }
+      
+        public async Task<List<TaskItem>> GetCompletedTasksAsync(int userId)
+        {
+            var tasks = new List<TaskItem>();
+
+            using var connection = Data.Database.GetConnection();
+            await connection.OpenAsync();
+
+            var query = @"SELECT Id, Title, Description, Priority, DueDate, UserId, Completed FROM Tasks WHERE UserId = @UserId AND Completed = 1";
+
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@UserId", userId);
+
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                tasks.Add(new Models.TaskItem
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    Title = reader.GetString(reader.GetOrdinal("Title")),
+                    Description = reader.GetString(reader.GetOrdinal("Description")),
+                    Priority = reader.GetInt32(reader.GetOrdinal("Priority")),
+                    DueDate = reader.IsDBNull(reader.GetOrdinal("DueDate")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("DueDate")),
+                    UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                    Completed = reader.GetBoolean(reader.GetOrdinal("Completed"))
+                });
+            }
+
+            return tasks;
+
+        }
 
         public async Task<TaskItem> AddAsync(TaskItem task)
         {
@@ -85,6 +117,32 @@ namespace TaskDesk.Repositories
             await connection.OpenAsync();
 
             var query = @"UPDATE Tasks SET Completed = 1 WHERE Id = @Id";
+
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Id", taskId);
+
+            await command.ExecuteNonQueryAsync();
+        }
+
+        public async Task MarkAsIncompleteAsync(int taskId)
+        {
+            using var connection = Data.Database.GetConnection();
+            await connection.OpenAsync();
+
+            var query = @"UPDATE Tasks SET Completed = 0 WHERE Id = @Id";
+
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Id", taskId);
+
+            await command.ExecuteNonQueryAsync();
+        }
+
+        public async Task DeleteAsync(int taskId)
+        {
+            using var connection = Data.Database.GetConnection();
+            await connection.OpenAsync();
+
+            var query = @"DELETE FROM Tasks WHERE Id = @Id";
 
             using var command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@Id", taskId);

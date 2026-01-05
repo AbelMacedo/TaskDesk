@@ -41,6 +41,8 @@
             label1 = new Label();
             dgvIncompleteTasks = new DataGridView();
             pbNewTask = new PictureBox();
+            btnDeleteTask = new Button();
+            btnTaskCompleted = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvIncompleteTasks).BeginInit();
@@ -115,6 +117,7 @@
             lblknCompletedTasks.TabIndex = 3;
             lblknCompletedTasks.TabStop = true;
             lblknCompletedTasks.Text = "Tareas completadas";
+            lblknCompletedTasks.LinkClicked += lblknCompletedTasks_LinkClicked;
             // 
             // pictureBox1
             // 
@@ -176,9 +179,10 @@
             dgvIncompleteTasks.ReadOnly = true;
             dgvIncompleteTasks.RowHeadersWidth = 62;
             dgvIncompleteTasks.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvIncompleteTasks.Size = new Size(1337, 225);
+            dgvIncompleteTasks.Size = new Size(1337, 620);
             dgvIncompleteTasks.TabIndex = 3;
             dgvIncompleteTasks.CellDoubleClick += dgvIncompleteTasks_CellDoubleClick;
+            dgvIncompleteTasks.SelectionChanged += dgvIncompletedTask_SelectionChanged;
             // 
             // pbNewTask
             // 
@@ -191,12 +195,36 @@
             pbNewTask.TabStop = false;
             pbNewTask.Click += pbNewTask_Click;
             // 
+            // btnDeleteTask
+            // 
+            btnDeleteTask.Font = new Font("Constantia", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDeleteTask.Location = new Point(960, 834);
+            btnDeleteTask.Name = "btnDeleteTask";
+            btnDeleteTask.Size = new Size(314, 76);
+            btnDeleteTask.TabIndex = 5;
+            btnDeleteTask.Text = "Eliminar";
+            btnDeleteTask.UseVisualStyleBackColor = true;
+            btnDeleteTask.Click += btnDeleteTask_Click;
+            // 
+            // btnTaskCompleted
+            // 
+            btnTaskCompleted.Font = new Font("Constantia", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTaskCompleted.Location = new Point(1315, 834);
+            btnTaskCompleted.Name = "btnTaskCompleted";
+            btnTaskCompleted.Size = new Size(428, 73);
+            btnTaskCompleted.TabIndex = 6;
+            btnTaskCompleted.Text = "Marcar como completa";
+            btnTaskCompleted.UseVisualStyleBackColor = true;
+            btnTaskCompleted.Click += btnTaskCompleted_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1778, 944);
+            Controls.Add(btnTaskCompleted);
+            Controls.Add(btnDeleteTask);
             Controls.Add(pbNewTask);
             Controls.Add(dgvIncompleteTasks);
             Controls.Add(label1);
@@ -214,6 +242,11 @@
             PerformLayout();
         }
 
+        private void dgvIncoplete(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         private Panel panel1;
@@ -229,5 +262,7 @@
         private Label label1;
         private DataGridView dgvIncompleteTasks;
         private PictureBox pbNewTask;
+        private Button btnDeleteTask;
+        private Button btnTaskCompleted;
     }
 }
